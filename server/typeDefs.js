@@ -2,9 +2,15 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type Suplier {
-    id: ID!
+    _id: ID!
+    name: String!
+  } 
+  
+  input SuplierInput {
+    _id: String
     name: String!
   }
+
 
   type Material {
     id: ID!,
@@ -12,27 +18,7 @@ const typeDefs = gql`
     matetial_type : MaterialType
     unit : Unit
   }
-
-  type Game {
-    id: ID!
-    title: String!
-    genre: Genre
-    rating: Int
-    status: Status
-  }
-
-  input GameInput {
-    title: String!
-    genre: String
-    rating: Int
-    status: Status
-  }
-
-  type Genre {
-    id: ID
-    name: String
-  }
-
+ 
   enum MaterialType{
     BAHAN_KEMAS
     BAHAN_BAKU
@@ -45,22 +31,12 @@ const typeDefs = gql`
     ROLL
   }
 
-  enum Status {
-    UNSELECTED
-    WANT_TO_PLAY
-    PLAYED_IT
-    BEAT_IT
-  }
-
   type Query {
     supliers: [Suplier]
-    games: [Game]
-    game(id: ID): Game
   }
 
   type Mutation {
-    addGame(game: GameInput): [Game]
-    addSuplier(suplier: String): [Suplier]
+    addSuplier(input:SuplierInput): [Suplier]
   }
 
 `;
