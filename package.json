@@ -1,0 +1,27 @@
+{
+  "name": "gmt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-server": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "dev2": "nodemon server2/index.js",
+    "migrate:make": "knex migrate:make migration_name --knexfile server2/db/knexfile.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-datasource-mongodb": "^0.4.6",
+    "apollo-server": "^3.1.2",
+    "graphql": "^15.5.1",
+    "knex": "^0.21.21",
+    "mongoose": "^5.13.7",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
