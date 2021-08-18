@@ -7,16 +7,23 @@ const typeDefs = gql`
   } 
   
   input SuplierInput {
-    _id: String
+    _id: String!
     name: String!
   }
 
 
   type Material {
-    id: ID!,
+    _id: ID!,
     name : String!
-    matetial_type : MaterialType
-    unit : Unit
+    matetial_type : MaterialType!
+    unit : Unit!
+  }
+
+  input MaterialInput {
+    _id: String!,
+    name : String!
+    matetial_type : MaterialType!
+    unit : Unit!
   }
  
   enum MaterialType{
@@ -32,11 +39,12 @@ const typeDefs = gql`
   }
 
   type Query {
-    supliers: [Suplier]
+    suplier(_id:String, name:String): [Suplier]
   }
 
   type Mutation {
-    addSuplier(input:SuplierInput): [Suplier]
+    addSuplier(args:SuplierInput): [Suplier]
+    addMaterial(args:MaterialInput): [Material]
   }
 
 `;
