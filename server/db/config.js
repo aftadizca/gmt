@@ -1,6 +1,6 @@
+const url = 'mongodb://localhost:27017'
+const dbname = 'gmt'
+const port = 4000
 
-// const mongoose = require("mongoose");
 
-// mongoose.connect('mongodb://localhost:27017/gmt', {useNewUrlParser: true});
-
-// module.exports = mongoose;
+module.exports = {url, dbname, port}

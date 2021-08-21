@@ -1,9 +1,8 @@
 const { MongoClient } = require('mongodb');
 const { ApolloServer} = require("apollo-server");
-const typeDefs = require('./typeDefs');
-const r_gen = require('./resolvers');
-
-const url = 'mongodb://localhost:27017';
+const {url, dbname, port} = require('./db/config')
+const typeDefs = require('./schema/typeDefs');
+const r_gen = require('./schema/resolvers');
 
 MongoClient.connect(url,(err, client)=>{
   if(err){
@@ -11,7 +10,7 @@ MongoClient.connect(url,(err, client)=>{
     return
   }
   console.log('Connected successfully to server')
-  const resolvers = r_gen(client.db('gmt'))
+  const resolvers = r_gen(client.db(dbname))
   // console.log(r)
   const server = new ApolloServer({
     typeDefs,
@@ -19,23 +18,9 @@ MongoClient.connect(url,(err, client)=>{
   })
   server
     .listen({
-      port: process.env.PORT || 4000
+      port: process.env.PORT || port
     })
     .then(({ url }) => {
       console.log(`Server started at ${url}`);
     });
 })
-
-
-// mongoose.connection.on("error", console.error.bind(console, "connection error:"));
-// mongoose.connection.once("open", function() {
-//   // were connected!
-//   console.log("✔️ Connected to MongoDB ✔️");
-//   server
-//     .listen({
-//       port: process.env.PORT || 4000
-//     })
-//     .then(({ url }) => {
-//       console.log(`Server started at ${url}`);
-//     });
-// });

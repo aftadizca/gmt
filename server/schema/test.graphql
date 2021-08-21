@@ -1,8 +1,0 @@
- type Query {
-    suplier(_id:String, name:String): [Suplier]
-  }
-
-  type Mutation {
-    addSuplier(args:SuplierInput): [Suplier]
-    addMaterial(args:MaterialInput): [Material]
-  }
