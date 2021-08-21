@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const { ApolloServer} = require("apollo-server");
 const {url, dbname, port} = require('./db/config')
-const typeDefs = require('./schema/typeDefs');
+const typeDefs = require('./schema/typedefs');
 const r_gen = require('./schema/resolvers');
 
 MongoClient.connect(url,(err, client)=>{
