@@ -1,27 +1,33 @@
 const { DateTimeResolver } = require("graphql-scalars");
-const { dateScalar } = require("./scalars");
 const { ObjectId } = require("mongodb");
 
-const addSingleMutation = async (db, collections, args) => {
+const addSingleDocument = async (db, collections, args) => {
   const input = { createdAt: new Date(), ...args };
   const newEntry = await db.collection(collections).insertOne(input);
   return { _id: newEntry.insertedId, ...input };
 };
 
-const updateSingleMutation = async (db, collections, args) => {
+const updateSingleDocument = async (db, collections, args) => {
   const { _id, ...rest } = args;
   const input = { updatedAt: new Date(), ...rest };
   const update = await db
     .collection(collections)
     .updateOne({ _id: new ObjectId(_id) }, { $set: { ...input } });
-  console.log(update);
   if (update.modifiedCount === 0) {
-    throw "Could not find document";
+    return { status: "Error", msg: "Cant find document" };
   }
-  return null;
-  // return { _id: newEntry.insertedId, ...input };
+  return { status: "Ok" };
 };
 
+const deleteMultipleDocument = async (db, collections, args) => {
+  const params = args._id.map((x) => {
+    return ObjectId(x);
+  });
+  const del = await db
+    .collection(collections)
+    .deleteMany({ _id: { $in: params } });
+  return { status: "Ok", msg: `Deleted ${del.deletedCount} record` };
+};
 const resolvers = (db) => {
   return {
     DateTime: DateTimeResolver,
@@ -37,17 +43,22 @@ const resolvers = (db) => {
       },
     },
     Mutation: {
-      addSuplier: async (obj, { args }, { userId }) => {
-        return addSingleMutation(db, "suplier", args);
+      //Add
+      addSuplier: (obj, { args }, { userId }) => {
+        return addSingleDocument(db, "suplier", args);
       },
-      addMaterial: async (obj, { args }, { userId }) => {
-        return addSingleMutation(db, "material", args);
+      addMaterial: (obj, { args }, { userId }) => {
+        return addSingleDocument(db, "material", args);
       },
-      updateMaterial: async (obj, { args }, { userId }) => {
-        return updateSingleMutation(db, "material", args);
+      addStock: (obj, { args }, { userId }) => {
+        return addSingleDocument(db, "stock", args);
       },
-      addStock: async (obj, { args }, { userId }) => {
-        return addSingleMutation(db, "stock", args);
+      // Update
+      updateMaterial: (obj, { args }, { userId }) => {
+        return updateSingleDocument(db, "material", args);
+      },
+      deleteMaterial: (obj, { args }, { userId }) => {
+        return deleteMultipleDocument(db, "material", args);
       },
     },
   };

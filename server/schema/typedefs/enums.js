@@ -12,6 +12,11 @@ const enums = gql`
     PACKAGING
     RAW
   }
+
+  enum StatusEnum {
+    Ok
+    Error
+  }
 `;
 
 module.exports = enums;

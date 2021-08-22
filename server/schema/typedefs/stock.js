@@ -18,8 +18,6 @@ const stock = gql`
     material: MaterialInput
     trace: Int
     stock: Int
-    createdAt: DateTime
-    updatedAt: DateTime
   }
 
   extend type Query {

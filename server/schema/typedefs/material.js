@@ -22,14 +22,18 @@ const material = gql`
     materialType: MaterialTypeEnum
     unit: UnitEnum
   }
+  input MaterialDelete {
+    _id: [ID!]!
+  }
 
   extend type Query {
-    material(_id: String): [Material]
+    material(_id: ID): [Material]
   }
 
   extend type Mutation {
     addMaterial(args: MaterialInput): Material
-    updateMaterial(args: MaterialUpdate): Material
+    updateMaterial(args: MaterialUpdate): Message
+    deleteMaterial(args: MaterialDelete): Message
   }
 `;
 
